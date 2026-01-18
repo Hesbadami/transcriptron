@@ -3,7 +3,7 @@ from urllib.parse import quote
 from typing import Optional, Dict, Any, Union
 import json
 
-from common.config import TELEGRAM_TOKEN, BASE_URL
+from common.config import TELEGRAM_TOKEN
 
 import anyio
 from anyio import to_thread, Semaphore
@@ -109,42 +109,6 @@ class TelegramBot:
         
         # Return the last result (or all results if you prefer)
         return results[-1] if results else None
-
-    @classmethod
-    def get_login_url(cls):
-        login_params = {
-            "url": f"{BASE_URL}telegram/webapp/6/",
-            "bot_username": "kodjopilotbot",
-            "request_write_access": True,
-        }
-        return login_params
-    
-    @classmethod
-    async def send_login_button(cls, chat_id, text, button_text="Join Zoom Meeting", meeting_id=None, **kwargs) -> Optional[Any]:
-        
-        login_url = cls.get_login_url()
-        if not login_url:
-            return None
-        if meeting_id:
-            login_url['url'] += f"{meeting_id}/"
-        
-        keyboard = {
-            "inline_keyboard": [
-                [
-                    {
-                        "text": button_text,
-                        "login_url": login_url
-                    }
-                ]
-            ]
-        }
-        kwargs["reply_markup"] = keyboard
-        kwargs["link_preview_options"] = {
-            "is_disabled": True
-        }
-        result = await cls.send_message(chat_id, text, **kwargs)
-        logger.info(f"Sent message: {result}")
-        return result
     
     @classmethod
     async def get_file(cls, file_id):
