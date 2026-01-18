@@ -39,7 +39,7 @@ NATS_CFG = {
 
 FASTAPI_CFG = {
     'host': os.environ.get("FASTAPI_HOST", "127.0.0.1"),
-    'port': os.environ.get("FASTAPI_PORT", 8000)
+    'port': int(os.environ.get("FASTAPI_PORT", 8000))
 }
 
 LOGGING_CFG = {
