@@ -124,7 +124,7 @@ class OpenAIManager:
         
         await self._rate_limiter.wait()
 
-        default_affirmation = "You're doing great! Keep going! 💪"
+        default_affirmation = "You're amazing! Keep shining! ✨💕"
 
         try:
             self.logger.info("Generating affirmation")
@@ -134,11 +134,11 @@ class OpenAIManager:
                 messages=[
                     {
                         "role": "user",
-                        "content": "Send a random affirmation line."
-                    }
+                        "content": "Write a single short, sweet, loving affirmation (10-15 words max). Be creative, cute, warm, and uplifting. Use emojis. Make it feel like a hug in words."
+                }
                 ],
-                max_tokens=50,
-                temperature=1.2  # Higher temperature for more creative variety
+                max_tokens=30,
+                temperature=1.5  # Higher temperature for more creative variety
             )
             
             affirmation_text = response.choices[0].message.content.strip()
