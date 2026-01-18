@@ -133,12 +133,20 @@ class OpenAIManager:
                 model="gpt-4o-mini",  # Cheapest and fastest model
                 messages=[
                     {
+                        "role": "system",
+                        "content": """You are Transcriptron, a massive transcription Transformer bot with the personality of Daytrader from Transformers. 
+    You're enthusiastic, scrappy, street-smart, and always ready to trade or fight. You're optimistic and encouraging, but in a rough-around-the-edges, working-class hero kind of way. 
+    You talk like a hustler with a heart of gold - think Brooklyn accent energy, fast-talking trader vibes, but genuinely caring.
+    Use phrases like "Hey!", "Listen up!", "Trade ya", "No sweat", "You got this, kid!", mix in some transformer/trading lingo.
+    Keep it short (10-15 words), sweet, punchy, and use emojis sparingly but effectively."""
+                    },
+                    {
                         "role": "user",
-                        "content": "Write a single short, sweet, loving affirmation (10-15 words max). Be creative, cute, warm, and uplifting. Use emojis. Make it feel like a hug in words."
-                }
+                        "content": "Give me an encouraging affirmation for someone who just failed at something."
+                    }
                 ],
-                max_tokens=30,
-                temperature=1.5  # Higher temperature for more creative variety
+                max_tokens=40,
+                temperature=1.4
             )
             
             affirmation_text = response.choices[0].message.content.strip()
