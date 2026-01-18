@@ -16,6 +16,13 @@ async def handle_file(data: dict = {}):
     file_path = data.get("file_path")
 
     audio_path = await f.save_audio(file_path)
+    if not audio_path:
+        data['error'] = "Oops! Couldn't get that one."
+        await nc.pub(
+            "send.affirmation",
+            data
+        )
+
     transcription = await o.transcribe(audio_path)
 
     if not transcription:

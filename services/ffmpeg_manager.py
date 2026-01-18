@@ -36,11 +36,12 @@ class FFmpegManager:
             nice_command = ['nice', '-n', '10'] + process
 
             # Execute the FFmpeg command with 'nice'
-            await to_thread.run_sync(
+            result = await to_thread.run_sync(
                 subprocess.run,
-                nice_command,
-                check=True
+                nice_command
             )
+            if result.returncode != 0:
+                return
             
             logger.info(f"Completed audio conversion")
             
