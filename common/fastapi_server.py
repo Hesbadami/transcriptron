@@ -8,6 +8,8 @@ from anyio.abc import TaskGroup
 from uvicorn import Config
 from fastapi import FastAPI
 
+import anyio
+
 api = FastAPI(
     title="API",
     docs_url=None,
@@ -48,5 +50,7 @@ class FastAPIServer:
             if self.server:
                 logger.info("Shutting down FastAPI server...")
                 self.server.should_exit = True
+                while self.server.started and not self.server.force_exit:
+                    await anyio.sleep(0.1)
 
 fastapi_server = FastAPIServer(**FASTAPI_CFG)
