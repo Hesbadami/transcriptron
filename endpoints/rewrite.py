@@ -7,8 +7,8 @@ from services.gemini import gemini_manager as g
 
 logger = logging.getLogger("rewrite")
 
-@api.post("/webhook/rewrite")
-@api.post("/webhook/rewrite/")
+@api.post("/transcriptron/rewrite")
+@api.post("/transcriptron/rewrite/")
 async def rewrite_webhook(
     request: Request,
     authorization: str = Header(None)

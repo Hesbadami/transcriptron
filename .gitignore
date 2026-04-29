@@ -5,3 +5,4 @@ myenv
 **/*.csv
 TODO.md
 audios/*.wav
+chrome-extension
