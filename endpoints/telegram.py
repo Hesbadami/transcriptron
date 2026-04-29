@@ -72,16 +72,17 @@ async def telegram_webhook(
                 video_note = message.get('video_note')
                 file_path = await get_video_note_path(video_note['file_id'])
             else:
-                await nc.pub(
-                    "send.affirmation",
-                    data
-                )
+                text = message.get('text')
+                if not text:
+                    return {"status": "ok"}
+                data |= {'text': text}
+                await nc.pub("text.received", data)
                 return {"status": "ok"}
             
             data |= {
                 'file_path': file_path
             }
-
+            
             await nc.pub(
                 "file.received", data
             )

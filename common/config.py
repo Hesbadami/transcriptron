@@ -20,6 +20,8 @@ MYSQL_CFG = {
 OPENAI_TOKEN = os.environ.get("OPENAI_TOKEN")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
 
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+
 TELEGRAM_SECRET = os.environ.get("TELEGRAM_SECRET")
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 
