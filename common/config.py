@@ -22,6 +22,8 @@ OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
+REWRITE_SECRET = os.environ.get("REWRITE_SECRET")
+
 TELEGRAM_SECRET = os.environ.get("TELEGRAM_SECRET")
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 
