@@ -103,7 +103,10 @@ class GeminiManager:
             config=types.GenerateContentConfig(
                 system_instruction=self.system_instruction,
                 temperature=0.3,
-                thinking_config=types.ThinkingConfig(thinking_level="low")
+                thinking_config=types.ThinkingConfig(
+                    thinking_budget = 0,
+                    thinking_level = 0
+                )
             ),
             contents=text
         )
