@@ -104,7 +104,6 @@ class GeminiManager:
                 system_instruction=self.system_instruction,
                 temperature=0.3,
                 thinking_config=types.ThinkingConfig(
-                    thinking_budget = 0,
                     thinking_level = 'MINIMAL'
                 )
             ),
