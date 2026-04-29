@@ -2,6 +2,7 @@ import logging
 import os
 
 from common.nats_server import nc
+from services.gemini import gemini_manager as g
 from services.telegram import TelegramBot as t
 from services.openai_manager import openai_manager as o
 from services.ffmpeg_manager import FFmpegManager as f
@@ -73,6 +74,25 @@ async def handle_affirmation(data: dict = {}):
     await t.send_message(
         chat_id = from_id,
         text = affirmation,
+        reply_parameters = {
+            "message_id": message_id
+        }
+    )
+
+@nc.sub("text.received")
+async def handle_text(data: dict = {}):
+
+    message_id = data.get("message_id")
+    from_id = data.get("from_id")
+    text = data.get("text")
+
+    rewrite = await g.correct_text(text)
+    if not rewrite:
+        rewrite = "Oops! Couldn't rewrite that one."
+
+    await t.send_message(
+        chat_id = from_id,
+        text = rewrite,
         reply_parameters = {
             "message_id": message_id
         }
