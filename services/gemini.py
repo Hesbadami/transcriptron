@@ -99,12 +99,12 @@ class GeminiManager:
     def _generate_content(self, text: str):
         """Helper method to call Gemini API synchronously (runs in thread pool)"""
         return self.client.models.generate_content(
-            model="gemini-3.1-flash-lite-preview",
+            model="gemini-3-flash-preview",
             config=types.GenerateContentConfig(
                 system_instruction=self.system_instruction,
                 temperature=0.3,
                 thinking_config=types.ThinkingConfig(
-                    thinking_level = 'MINIMAL'
+                    thinking_budget = 0
                 )
             ),
             contents=text
