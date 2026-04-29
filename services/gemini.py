@@ -105,7 +105,7 @@ class GeminiManager:
                 temperature=0.3,
                 thinking_config=types.ThinkingConfig(
                     thinking_budget = 0,
-                    thinking_level = 0
+                    thinking_level = 'MINIMAL'
                 )
             ),
             contents=text
