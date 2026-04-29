@@ -7,6 +7,22 @@ from services.openai_manager import openai_manager as o
 from services.ffmpeg_manager import FFmpegManager as f
 
 logger = logging.getLogger(__name__)
+CHUNK_SIZE = 4000
+
+def chunk_text(text: str, size: int = CHUNK_SIZE) -> list[str]:
+    if len(text) <= size:
+        return [text]
+    chunks = []
+    while text:
+        if len(text) <= size:
+            chunks.append(text)
+            break
+        split = text.rfind(" ", 0, size)
+        if split == -1:
+            split = size
+        chunks.append(text[:split])
+        text = text[split:].lstrip()
+    return chunks
 
 @nc.sub("file.received")
 async def handle_file(data: dict = {}):
@@ -18,25 +34,17 @@ async def handle_file(data: dict = {}):
     audio_path = await f.save_audio(file_path)
     if not audio_path:
         data['error'] = "Oops! Couldn't get that one."
-        await nc.pub(
-            "send.affirmation",
-            data
-        )
+        await nc.pub("send.affirmation", data)
+        return
 
     transcription = await o.transcribe(audio_path)
-
     if not transcription:
         data['error'] = "Oops! Couldn't get that one."
-        await nc.pub(
-            "send.affirmation",
-            data
-        )
+        await nc.pub("send.affirmation", data)
+        return
 
-    data['transcription'] = transcription
-    await nc.pub(
-        "send.transcription",
-        data
-    )
+    for part in chunk_text(transcription):
+        await nc.pub("send.transcription", {**data, "transcription": part})
 
     await f.delete_audio(audio_path)
 

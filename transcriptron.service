@@ -1,0 +1,21 @@
+[Unit]
+Description=Transcriptron Service
+After=network.target
+
+[Service]
+Type=exec
+User=root
+WorkingDirectory=/opt/transcriptron
+ExecStart=/opt/transcriptron/myenv/bin/python main.py
+Restart=always
+RestartSec=10
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectKernelTunables=true
+
+[Install]
+WantedBy=multi-user.target
