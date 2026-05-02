@@ -51,6 +51,9 @@ async def telegram_webhook(
             message_id = message.get("message_id")
             from_id = message.get("from", {}).get("id")
             
+            if not from_id:
+                return {"status": "ok"}
+            
             if int(from_id) not in TELEGRAM_WHITELIST:
                 return {"status": "ok"}
             
